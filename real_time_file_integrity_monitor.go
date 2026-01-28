@@ -79,3 +79,49 @@ func initialScan(root string) map[string]FileState {
 	return state
 }
 
+// Worker function. takes id, jobs, and state as a function
+func worker(id int, jobs <-chan Job, state map[string]FileState, mu *sync.Mutex) {
+	// Loops over the range of jobs
+	for job := range jobs {
+		switch {
+		// Handle file creation or modification events
+		case job.Op&(fsnotify.Create|fsnotify.Write) != 0:
+			// Calculate the new hash to see if the content actually changed
+			hash, err := hashFile(job.Path)
+			// Catchs the error
+			if err != nil {
+				// Goes to next iteration
+				continue
+			}
+
+			// Lock the map before reading or writing to prevent race conditions
+			mu.Lock()
+			// Gets the old hash and whether the file exists
+			old, exists := state[job.Path]
+			// Checks if the file exists and the if the hashes dont match
+			if exists && old.Hash != hash {
+				// Outputs the file at the path is modified
+				fmt.Println("[MODIFIED]", job.Path)
+			// Checks if the file doesnt not exist
+			} else if !exists {
+				// Outputs the file at path has been created
+				fmt.Println("[CREATED]", job.Path)
+			}
+			// Sets the new state from the file state data struct
+			state[job.Path] = FileState{Hash: hash}
+			// Unlocks the map
+			mu.Unlock()
+		
+		// Handle file deletion events
+		case job.Op&fsnotify.Remove != 0:
+			// Locks the map
+			mu.Lock()
+			// Remove the file from our internal tracking map
+			delete(state, job.Path)
+			// Unlocks the map
+			mu.Unlock()
+			// Prints the file is is deleted
+			fmt.Println("[DELETED]", job.Path)
+		}
+	}
+}
