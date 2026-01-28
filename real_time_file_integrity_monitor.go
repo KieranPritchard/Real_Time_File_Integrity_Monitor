@@ -24,6 +24,11 @@ type Job struct {
 	Op   fsnotify.Op // Stores the operation of the fsnotify
 }
 
+const (
+	watchDir = "./testdata"
+	workers  = 4
+)
+
 // Function to hash files
 func hashFile(path string) (string, error) {
 	// Opens the file from the path and gets the error
