@@ -17,3 +17,10 @@ def random_filename():
     name = "".join(random.choices(string.ascii_lowercase, k=6))
     # Returns the file name
     return f"{name}.txt"
+
+# Function to generate random content
+def random_content():
+    # Decides the random length of the file
+    length = random.randint(10, 100)
+    # Creates the content by joining the random choice of a string of ascii character
+    return "".join(random.choices(string.ascii_letters + string.digits, k=length))
