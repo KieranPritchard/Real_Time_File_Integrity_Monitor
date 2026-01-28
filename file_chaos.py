@@ -11,3 +11,9 @@ SLEEP_MAX = 2.0 # Stores the longest time to sleep
 # Creates the target directory
 os.makedirs(TARGET_DIR, exist_ok=True)
 
+# Function creates a random file name
+def random_filename():
+    # Creates the name by joining the random choice of a string of ascii characters
+    name = "".join(random.choices(string.ascii_lowercase, k=6))
+    # Returns the file name
+    return f"{name}.txt"
