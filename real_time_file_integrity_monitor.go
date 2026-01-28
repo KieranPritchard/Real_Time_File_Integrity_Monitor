@@ -125,3 +125,68 @@ func worker(id int, jobs <-chan Job, state map[string]FileState, mu *sync.Mutex)
 		}
 	}
 }
+
+// Main function
+func main() {
+	// Outputs the monitor is started
+	fmt.Println("Real-time File Integrity Monitor starting...")
+
+	// Gets the state from the inital scan function
+	state := initialScan(watchDir)
+	// Prints a baseline is established
+	fmt.Println("Baseline established")
+
+	// Creates a new watcher with fsnotfiy and new watcher
+	watcher, err := fsnotify.NewWatcher()
+	// Checks for error
+	if err != nil {
+		// Panics on error
+		panic(err)
+	}
+	// Closes the watcher when done
+	defer watcher.Close()
+
+	// Checks for error from watcher checking watch directory
+	if err := watcher.Add(watchDir); err != nil {
+		// Panics on error
+		panic(err)
+	}
+
+	// Creates a map of jobs
+	jobs := make(chan Job, 100)
+	// Adds sync mutex to the path
+	var mu sync.Mutex
+
+	// Start workers
+	for i := 0; i < workers; i++ {
+		// Creates go worker function
+		go worker(i, jobs, state, &mu)
+	}
+
+	// Event dispatcher goroutine
+	go func() {
+		// Loops over each event in watchers events
+		for event := range watcher.Events {
+			// Adds the job to jobs
+			jobs <- Job{
+				Path: event.Name,
+				Op:   event.Op,
+			}
+		}
+	}()
+
+	// Error handler goroutine
+	go func() {
+		// Loops over the errors
+		for err := range watcher.Errors {
+			// Prints the watcher error
+			fmt.Println("Watcher error:", err)
+		}
+	}()
+
+	// Keeps process alive
+	for {
+		// Sleeps for the second
+		time.Sleep(time.Second)
+	}
+}
