@@ -51,3 +51,31 @@ func hashFile(path string) (string, error) {
 	// Returns the hex value of the file hash
 	return hex.EncodeToString(hash.Sum(nil)), nil
 }
+
+// Function to run inital scan of the files
+func initialScan(root string) map[string]FileState {
+	// Makes a empty map using filestate
+	state := make(map[string]FileState)
+
+	//  Goes over each file in the root and gets the path, info, error
+	filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
+		// Checks for error and info about the directory
+		if err != nil || info.IsDir() {
+			// returns nil
+			return nil
+		}
+		// gets the hash from teh hash file function
+		hash, err := hashFile(path)
+		// Checks if the error is nil
+		if err == nil {
+			// Stores the file stat in the map
+			state[path] = FileState{Hash: hash}
+		}
+		// returns nil
+		return nil
+	})
+
+	// Returns the state
+	return state
+}
+
