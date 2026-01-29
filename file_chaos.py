@@ -24,3 +24,10 @@ def random_content():
     length = random.randint(10, 100)
     # Creates the content by joining the random choice of a string of ascii character
     return "".join(random.choices(string.ascii_letters + string.digits, k=length))
+
+# Function which returns a list of files
+def list_files():
+    # Creates a list of files from a private directory
+    files = [os.path.join(TARGET_DIR, f) for f in os.listdir(TARGET_DIR) if os.path.isfile(os.path.join(TARGET_DIR, f))]
+    # Returns the files
+    return files
