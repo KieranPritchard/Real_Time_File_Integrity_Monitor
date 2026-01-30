@@ -1,18 +1,18 @@
-# Number_Guessing_Game
+# Real Time File Integrity Monitor
 
 <div align="center">
 
-<img alt="GitHub Created At" src="https://img.shields.io/github/created-at/KieranPritchard/Number_Guessing_Game">
+<img alt="GitHub Created At" src="https://img.shields.io/github/created-at/KieranPritchard/Real_Time_File_Integrity_Monitor">
 
-<img alt="GitHub License" src="https://img.shields.io/github/license/KieranPritchard/Number_Guessing_Game">
+<img alt="GitHub License" src="https://img.shields.io/github/license/KieranPritchard/Real_Time_File_Integrity_Monitor">
 
-<img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/t/KieranPritchard/Number_Guessing_Game">
+<img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/t/KieranPritchard/Real_Time_File_Integrity_Monitor">
 
-<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/KieranPritchard/Number_Guessing_Game">
+<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/KieranPritchard/Real_Time_File_Integrity_Monitor">
 
-<img alt="GitHub language count" src="https://img.shields.io/github/languages/count/KieranPritchard/Number_Guessing_Game">
+<img alt="GitHub language count" src="https://img.shields.io/github/languages/count/KieranPritchard/Real_Time_File_Integrity_Monitor">
 
-<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/KieranPritchard/Number_Guessing_Game">
+<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/KieranPritchard/Real_Time_File_Integrity_Monitor">
 
 </div>
 
